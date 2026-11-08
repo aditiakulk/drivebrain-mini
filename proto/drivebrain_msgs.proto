@@ -1,3 +1,4 @@
+// defines the protobuf messages that get logged to foxglove and the mcap
 syntax = "proto3";
 
 package drivebrain_msgs;
