@@ -1,0 +1,23 @@
+# runs the mini-drivebrain flowmeter logger on boot and restarts it if it fails
+[Unit]
+Description=mini-drivebrain flowmeter logger
+# starts once networking is up so foxglove can connect on port 5555
+After=network.target
+
+[Service]
+# binary always lives here, scp new builds over it (stop the service first)
+# args: GPIO chip and line offset (GPIO17 = physical pin 11)
+ExecStart=/home/nixos/mini-drivebrain /dev/gpiochip0 17
+# restarts if it crashes or exits with an error
+Restart=on-failure
+RestartSec=2
+# systemctl stop sends SIGTERM, our handler stops the threads and closes the mcap
+KillSignal=SIGTERM
+# SIGTERM goes to the main process only, anything left gets killed after
+KillMode=mixed
+# if it hangs for 10s, systemd force kills it
+TimeoutStopSec=10
+
+[Install]
+# starts on boot
+WantedBy=multi-user.target
