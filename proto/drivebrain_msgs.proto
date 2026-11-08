@@ -3,3 +3,15 @@ syntax = "proto3";
 package drivebrain_msgs;
 
 // Add your messages here
+
+// The flowmeter's measurements
+message FlowmeterData {
+  // All the pulses processed since the program started
+  uint64 pulse = 1;
+
+  // Most recent pulse's monotonic timestamp
+  uint64 last_pulse = 2;
+
+  // Pulse frequency in pulses per second.
+  double frequency = 3;
+}
